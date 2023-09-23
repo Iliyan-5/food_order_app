@@ -6,6 +6,13 @@
     overflow: scroll;
   }
   
+.cart-items-small{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 10rem;
+  overflow: scroll; 
+}
   .total {
     display: flex;
     justify-content: space-between;

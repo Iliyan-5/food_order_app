@@ -5,6 +5,14 @@
     animation: meals-appear 1s ease-out forwards;
   }
   
+  .MealsLoading{
+    text-align: center;
+    color: white;
+  }
+  .httpError{
+    text-align: center;
+    color: rgb(247, 8, 8); 
+  }
   .meals ul {
     list-style: none;
     margin: 0;
