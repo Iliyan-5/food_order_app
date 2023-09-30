@@ -1,11 +1,12 @@
 {
-  "name": "react-complete-guide",
+  "name": "food-order-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.5.0",
+    "firebase": "^10.4.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-native": "^0.72.3",

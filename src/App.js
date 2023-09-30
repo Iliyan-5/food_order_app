@@ -1,30 +1,47 @@
-import React from "react";
-import { useState } from "react";
-
+import React, { useState } from "react";
 import Header from "./components/Layout/Header";
 import Meals from './components/Meals/Meals'
 import Cart from "./components/Cart/Cart";
+import Contacts from "./components/Contacts/Contacts"; // Import your Contacts component
 import CartProvider from "./store/CartProvider";
 
 function App() {
+  const [cartIsShown, setCartIsShown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false); // State to control dropdown visibility
 
-  const [cartIsShown, setCartIsShown] = useState(false)
+  const showCartHandler = () => {
+    setCartIsShown(true);
+    setShowDropdown(false); // Close the dropdown when Cart is shown
+  };
 
-  const showCartHandler = ()=>{
-    setCartIsShown(true)
-  }
+  const hideCartHandler = () => {
+    setCartIsShown(false);
+  };
 
-  const hideCartHandler = ()=>{
-    setCartIsShown(false)
-  }
+  const toggleDropdown = () => {
+    setShowDropdown((prev) => !prev); // Toggle dropdown visibility
+  };
 
   return (
     <CartProvider>
-      {cartIsShown && <Cart onClose={hideCartHandler}/> }
-      <Header onShowCart={showCartHandler}/>
+      <Header onShowCart={showCartHandler} onToggleDropdown={toggleDropdown} />
+      {showDropdown && (
+        <div className="dropdown-menu" font="white">
+          <ul>
+            <li>
+              <button onClick={showCartHandler}>Menu</button>
+            </li>
+            <li>
+              <button onClick={() => console.log("Contacts clicked")}>Contacts</button>
+            </li>
+          </ul>
+        </div>
+      )}
+      {cartIsShown && <Cart onClose={hideCartHandler} />}
       <main>
-        <Meals/>
+        <Meals />
       </main>
+      {showDropdown && <div className="backdrop" onClick={toggleDropdown}></div>}
     </CartProvider>
   );
 }

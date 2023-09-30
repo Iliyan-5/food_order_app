@@ -4,6 +4,9 @@ import CartItem from "./CartItem";
 import classes from "./Cart.module.css";
 import CartContext from "../../store/cart-context";
 import Checkout from "./Checkout";
+import {db} from '../DB/firebase' 
+import { ref, push, set } from 'firebase/database'; // Import necessary Firebase functions
+
 
 const Cart = (props) => {
   const [isCheckout, setIsCheckout] = useState(false);
@@ -28,22 +31,32 @@ const Cart = (props) => {
 
   const submitOrderHandler = async (userData) => {
     setIsSubmitting(true);
-    const response = await fetch(
-      "https://food-order-app-7d66e-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          user: userData,
-          orderedItems: cartCtx.items,
-        }),
-      }
-      // check reponse
-    );
 
-    setIsSubmitting(false);
-    setDidSubmit(true);
-    cartCtx.clearCart()
+    try {
+      // Create a reference to the 'orders' node in the Firebase database
+      const ordersRef = ref(db, 'orders');
+
+      // Generate a new unique key for the order
+      const newOrderRef = push(ordersRef);
+
+      // Create the order data object
+      const orderData = {
+        user: userData,
+        orderedItems: cartCtx.items,
+      };
+
+      // Set the new order data at the generated key
+      await set(newOrderRef, orderData);
+
+      setIsSubmitting(false);
+      setDidSubmit(true);
+      cartCtx.clearCart();
+    } catch (error) {
+      console.error("Error sending order:", error);
+      setIsSubmitting(false);
+    }
   };
+
 
   const cartItems = (
     <ul
