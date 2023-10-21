@@ -4,26 +4,18 @@ import Card from "../UI/Card";
 import classes from "./Login.module.css";
 import AuthContext from "../../store/auth-context";
 import AuthInput from "../UI/AuthInput"
+import { NavLink, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../DB/firebase";
+
 
 const Login = () => {
   const [enteredEmail, setEnteredEmail] = useState("");
-  const [emailIsValid, setEmailIsValid] = useState();
   const [enteredPassword, setEnteredPassword] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState();
-  const [formIsValid, setFormIsValid] = useState(false);
-  const authContext = useContext(AuthContext);
+  const [invalidLogin, setInvalidLogin] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
 
-  useEffect(() => {
-    const identifier = setTimeout(() => {
-      setFormIsValid(
-        enteredEmail.includes("@") && enteredPassword.trim().length > 6
-      );
-    }, 500);
-
-    return () => {
-      clearTimeout(identifier);
-    };
-  }, [enteredEmail, enteredPassword]);
+  const navigate = useNavigate();
 
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
@@ -33,56 +25,99 @@ const Login = () => {
     setEnteredPassword(event.target.value);
   };
 
-  const validateEmailHandler = () => {
-    setEmailIsValid(enteredEmail.includes("@"));
-  };
-
-  const validatePasswordHandler = () => {
-    setPasswordIsValid(enteredPassword.trim().length > 6);
-  };
 
   const submitHandler = (event) => {
+    setInvalidLogin(false)
     event.preventDefault();
-    
-    authContext.onLogin(enteredEmail,enteredPassword);
-    console.log(authContext.isLoggedIn)
+    signInWithEmailAndPassword(auth, enteredEmail, enteredPassword)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        navigate("/home");
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        setInvalidLogin(true)
+        setErrorMessage(errorMessage.replace("Firebase:", ""));
+      });
   };
-
   return (
     <React.Fragment>
     <header className={classes.header}>
-      <h1>ReactMeals</h1>
+      <h1>Pizza Flora</h1>
     </header> 
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
         <AuthInput
           label="E-Mail"
-          isValid={emailIsValid}
           type="email"
           id="email"
           value={enteredEmail}
           onChange={emailChangeHandler}
-          onBlur={validateEmailHandler}
         />
         <AuthInput
           label="Password"
-          isValid={passwordIsValid}
           type="password"
           id="password"
           value={enteredPassword}
           onChange={passwordChangeHandler}
-          onBlur={validatePasswordHandler}
         />
-      
+        {invalidLogin && <p1 style = {{color:"red"}}>{errorMessage}</p1>}
         <div className={classes.actions}>
           <button type="submit" className={classes.button}>
             Login
           </button>
         </div>
       </form>
+      
+      <p className="text-sm text-white text-center">
+              No account yet? <NavLink to="/signup">Sign up</NavLink>
+            </p>
     </Card>
     </React.Fragment>
   );
+
+//test 
+  // return (
+  //   <React.Fragment>
+  //   <header className={classes.header}>
+  //     <h1>ReactMeals</h1>
+  //   </header> 
+  //   <Card className={classes.login}>
+  //     <form onSubmit={submitHandler}>
+  //       <AuthInput
+  //         label="E-Mail"
+  //         isValid={emailIsValid}
+  //         type="email"
+  //         id="email"
+  //         value={enteredEmail}
+  //         onChange={emailChangeHandler}
+  //         onBlur={validateEmailHandler}
+  //       />
+  //       <AuthInput
+  //         label="Password"
+  //         isValid={passwordIsValid}
+  //         type="password"
+  //         id="password"
+  //         value={enteredPassword}
+  //         onChange={passwordChangeHandler}
+  //         onBlur={validatePasswordHandler}
+  //       />
+      
+  //       <div className={classes.actions}>
+  //         <button type="submit" className={classes.button}>
+  //           Login
+  //         </button>
+  //       </div>
+  //     </form>
+  //   </Card>
+  //   </React.Fragment>
+  // );
+//
+
 };
 
 export default Login;

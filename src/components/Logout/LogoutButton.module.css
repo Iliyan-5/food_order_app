@@ -1,0 +1,52 @@
+.logoutButton{
+    position:absolute;
+    right:0;
+    cursor: pointer;
+    font: inherit;
+    border: none;
+    background-color: #a9927d;
+    color: white;
+    padding: 0.9rem 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 25px;
+    font-weight: bold;
+  }
+  .logoutButton:hover,
+  .logoutButton:active {
+    background-color: #856c55;
+  }
+  
+  .button:hover .badge,
+  .button:active .badge {
+    background-color: #0a0908;
+  }
+  
+  .bump {
+    animation: bump 300ms ease-out;
+  }
+  
+  @keyframes bump {
+    0% {
+      transform: scale(1);
+    }
+    10% {
+      transform: scale(0.9);
+    }
+    30% {
+      transform: scale(1.1);
+    }
+    50% {
+      transform: scale(1.15);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  .icon {
+    width: 1.7rem;
+    height: 1.7rem;
+    margin-right: 0rem;
+    background-color:transparent;
+  }

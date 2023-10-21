@@ -22,7 +22,7 @@ const Meals = () => {
       <MealsSummary />
       <MealTab
           tabs={['Starters', 'Salads', 'Main', 'Desserts']}
-          defaultTab="Main"
+          defaultTab="Starters"
           onTabChange={handleTabChange}
         />
       <AvailableMeals mealCategory={activeTab}/>
