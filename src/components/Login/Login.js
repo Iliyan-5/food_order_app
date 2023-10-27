@@ -52,14 +52,14 @@ const Login = () => {
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
         <AuthInput
-          label="E-Mail"
+          label="E-Mail Test"
           type="email"
           id="email"
           value={enteredEmail}
           onChange={emailChangeHandler}
         />
         <AuthInput
-          label="Password"
+          label="Password Test"
           type="password"
           id="password"
           value={enteredPassword}
