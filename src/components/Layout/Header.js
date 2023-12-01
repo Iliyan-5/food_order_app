@@ -5,10 +5,13 @@ import mealsImage from '../../assets/food6.jpeg'
 import HeaderCartButton from "./HeaderCartButton";
 import LogoutButton from "../Logout/LogoutButton";
 const Header = (props) => {
+  
   return (
     <React.Fragment>
       <header className={classes.header}>
         <h1>Pizza Flora</h1>
+
+        
         <HeaderCartButton onClick={props.onShowCart}/>
         <LogoutButton/>
       </header> 
