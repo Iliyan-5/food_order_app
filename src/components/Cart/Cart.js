@@ -59,6 +59,8 @@ const Cart = (props) => {
         console.log("Permission error")
       }else{
         setIsSubmissionError (true)
+        console.log("Not Permission error")
+
       }
       console.error("Грешка при изпращане на поръчката:", error);
       setIsSubmitting(false);
