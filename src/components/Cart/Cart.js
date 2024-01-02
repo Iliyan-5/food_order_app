@@ -6,6 +6,8 @@ import CartContext from "../../store/cart-context";
 import Checkout from "./Checkout";
 import {db} from '../DB/firebase' 
 import { ref, push, set } from 'firebase/database';
+import { NavLink } from "react-router-dom";
+
 
 
 const Cart = (props) => {
