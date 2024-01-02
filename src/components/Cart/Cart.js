@@ -56,7 +56,7 @@ const Cart = (props) => {
       setDidSubmit(true);
       cartCtx.clearCart();
     } catch (error) {
-      if (error.message.includes('permission denied')){
+      if (error.message.includes('PERMISSION_DENIED')){
         setIsPermissionError(true)
         console.log("Permission error")
         console.log(error.message)
