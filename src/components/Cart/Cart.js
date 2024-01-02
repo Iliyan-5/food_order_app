@@ -5,7 +5,7 @@ import classes from "./Cart.module.css";
 import CartContext from "../../store/cart-context";
 import Checkout from "./Checkout";
 import {db} from '../DB/firebase' 
-import { ref, push, set } from 'firebase/database'; // Import necessary Firebase functions
+import { ref, push, set } from 'firebase/database';
 
 
 const Cart = (props) => {
@@ -15,7 +15,7 @@ const Cart = (props) => {
 
   const cartCtx = useContext(CartContext);
 
-  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+  const totalAmount = `${cartCtx.totalAmount.toFixed(2)}лв.`;
   const hasItems = cartCtx.items.length > 0;
 
   const cartItemRemoveHandler = (id) => {
@@ -52,7 +52,7 @@ const Cart = (props) => {
       setDidSubmit(true);
       cartCtx.clearCart();
     } catch (error) {
-      console.error("Error sending order:", error);
+      console.error("Грешка при изпращане на поръчката:", error);
       setIsSubmitting(false);
     }
   };
@@ -80,11 +80,11 @@ const Cart = (props) => {
   const modalActions = (
     <div className={classes.actions}>
       <button className={classes["button--alt"]} onClick={props.onClose}>
-        Close
+        Затвори
       </button>
       {hasItems && (
         <button className={classes.button} onClick={orderHandler}>
-          Order
+          Поръчай
         </button>
       )}
     </div>
@@ -94,7 +94,7 @@ const Cart = (props) => {
     <React.Fragment>
       {cartItems}
       <div className={classes.total}>
-        <span>Total Amount</span>
+        <span>Общо</span>
         <span>{totalAmount}</span>
       </div>
       {isCheckout && (
@@ -104,14 +104,14 @@ const Cart = (props) => {
     </React.Fragment>
   );
 
-  const isSubmittingModalContent = <p>Sending order data...</p>;
+  const isSubmittingModalContent = <p>Изпращане на данните за поръчката...</p>;
 
   const didSubmitModalContent = (
     <React.Fragment>
-      <p>Successfully sent the order!</p>
+      <p>Поръчката е изпратена успешно!</p>
       <div className={classes.actions}>
         <button className={classes["button-"]} onClick={props.onClose}>
-          Close
+          Затвори
         </button>
       </div>
     </React.Fragment>

@@ -9,7 +9,7 @@ const isPhoneValid = (value) => {
   );
 };
 const isCityValid = (value) => {
-  return value.trim() === "Sofia";
+  return value.trim() === "София";
 };
 
 const Checkout = (props) => {
@@ -55,7 +55,6 @@ const Checkout = (props) => {
     if (!formIsValid) {
       return;
     }
-
     props.onConfirm({
         name: enteredName,
         street: enteredStreet,
@@ -83,30 +82,30 @@ const Checkout = (props) => {
   return (
     <form className={classes.form} onSubmit={confirmHandler}>
       <div className={nameControlClasses}>
-        <label htmlFor="name">Your Name</label>
+        <label htmlFor="name">Име и фамилия</label>
         <input type="text" id="name" ref={nameInputRef} />
         {!formInputsValidity.name && <p>Please enter a valid name</p>}
       </div>
       <div className={streetControlClasses}>
-        <label htmlFor="street">Street</label>
+        <label htmlFor="street">Улица</label>
         <input type="text" id="street" ref={streetInputRef} />
         {!formInputsValidity.street && <p>Please enter a valid street name</p>}
       </div>
       <div className={cityControlClasses}>
-        <label htmlFor="city">City</label>
+        <label htmlFor="city">Град</label>
         <input type="text" id="city" ref={cityInputRef} />
         {!formInputsValidity.city && <p>Please enter a valid city</p>}
       </div>
       <div className={phoneControlClasses}>
-        <label htmlFor="number">Phone</label>
+        <label htmlFor="number">Телефонен номер</label>
         <input type="text" id="number" ref={phoneInputRef} />
         {!formInputsValidity.phone && <p>Please enter a valid phone number</p>}
       </div>
       <div className={classes.actions}>
         <button type="button" onClick={props.onCancel}>
-          Cancel
+          Откажи
         </button>
-        <button className={classes.submit}>Confirm</button>
+        <button className={classes.submit}>Потвърди</button>
       </div>
     </form>
   );

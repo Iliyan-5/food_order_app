@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { useState } from "react";
-import Card from "./Card";
 
 
 const MealTab = ({ tabs, defaultTab, onTabChange }) =>{

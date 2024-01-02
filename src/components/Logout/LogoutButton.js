@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./LogoutButton.module.css";
-import logoutImage from "../../assets/icon1.png";
+import logoutImage from "../../assets/logoutIcon.png";
 import { signOut } from "firebase/auth";
 import { auth } from "../DB/firebase";
 import { useNavigate } from "react-router-dom";
@@ -13,10 +13,9 @@ const HeaderLogoutButton = (props) => {
       .then(() => {
         // Sign-out successful.
         navigate("/Login");
-        console.log("Signed out successfully");
       })
       .catch((error) => {
-        // An error happened.
+        console.log(error.message)
       });
   };
   return (

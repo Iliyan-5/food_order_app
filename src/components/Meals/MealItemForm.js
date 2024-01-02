@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import Input from "../../UI/Input";
+import Input from "../UI/Input";
 import classes from "./MealItemForm.module.css";
 
 const MealItemForm = (props) => {
@@ -27,7 +27,7 @@ const MealItemForm = (props) => {
     <form className={classes.form} onSubmit={submitHandler}>
       <Input
         ref={amountInputRef}
-        label="Amount"
+        label="Количество"
         input={{
           id: "amount_" + props.id,
           type: "number",
@@ -37,7 +37,7 @@ const MealItemForm = (props) => {
         }}
       />
 
-      <button>+ Add</button>
+      <button>+ Добави</button>
       {!amountIsValid && <p>Please enter a valid amount.</p>}
     </form>
   );

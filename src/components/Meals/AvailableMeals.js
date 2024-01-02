@@ -1,7 +1,7 @@
 import Card from "../UI/Card";
-import MealTab from "../UI/MealTab";
+import MealTab from "./MealTab";
 import classes from "./AvailableMeals.module.css";
-import MealItem from "./MealItem/MealItem";
+import MealItem from "./MealItem";
 import { useEffect, useState } from "react";
 import { db } from '../DB/firebase'; 
 import {ref, get} from 'firebase/database'
@@ -33,7 +33,7 @@ const AvailableMeals = (props) => {
 
           setMeals(loadedMeals);
         } else {
-          console.log('No data available');
+          console.log('Няма намерени продукти');
         }
 
         setIsLoading(false);
@@ -52,7 +52,7 @@ const AvailableMeals = (props) => {
   if (isLoading) {
     return (
       <section className={classes.MealsLoading}>
-        <p>Loading...</p>
+        <p>Зареждане...</p>
       </section>
     );
   }
