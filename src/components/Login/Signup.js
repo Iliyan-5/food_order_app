@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 
 import Card from "../UI/Card";
 import classes from "./Signup.module.css";
-import AuthContext from "../../store/auth-context";
 import AuthInput from "../UI/AuthInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -18,9 +17,8 @@ const Login = () => {
 
   const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState();
   const [invalidSignUp, setInvalidSignUp] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const authContext = useContext(AuthContext);
   const navigate = useNavigate();
 
   const emailChangeHandler = (event) => {
@@ -50,33 +48,37 @@ const Login = () => {
   };
   const submitHandler = async (event) => {
     event.preventDefault();
-    console.log(auth);
-
-    await createUserWithEmailAndPassword(auth, enteredEmail, enteredPassword)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        navigate("/login");
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        setInvalidSignUp(true);
-        setErrorMessage(errorMessage.replace("Firebase:", ""));
-      });
+    if (!confirmPasswordIsValid) {
+      setInvalidSignUp(true);
+      setErrorMessage("Невалидна парола!");
+    } else {
+      await createUserWithEmailAndPassword(auth, enteredEmail, enteredPassword)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          navigate("/login");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+          setInvalidSignUp(true);
+          setErrorMessage(
+            "Невалиден имейл! Моля уверете се, че имейлът е правилен, или че вече не съществува акаунт с такъв имейл!"
+          );
+        });
+    }
   };
 
   return (
     <React.Fragment>
       <header className={classes.header}>
-        <h1>Pizza Flora</h1>
+        <h1>Пицария Флора</h1>
       </header>
       <Card className={classes.login}>
         <form onSubmit={submitHandler}>
           <AuthInput
-            label="E-Mail"
+            label="Имейл"
             isValid={emailIsValid}
             type="email"
             id="email"
@@ -85,7 +87,7 @@ const Login = () => {
             onBlur={validateEmailHandler}
           />
           <AuthInput
-            label="Password"
+            label="Парола"
             isValid={passwordIsValid}
             type="password"
             id="password"
@@ -94,7 +96,7 @@ const Login = () => {
             onBlur={validatePasswordHandler}
           />
           <AuthInput
-            label="Confirm Password"
+            label="Потвърди парола"
             isValid={confirmPasswordIsValid}
             type="password"
             id="confirmPassword"
@@ -107,13 +109,13 @@ const Login = () => {
 
           <div className={classes.actions}>
             <button type="submit" className={classes.button}>
-              Sign up
+              Създай акаунт
             </button>
           </div>
         </form>
 
         <p>
-          Already have an account? <NavLink to="/login">Sign in</NavLink>
+          Вече имаш акаунт? <NavLink to="/login">Вписване</NavLink>
         </p>
       </Card>
     </React.Fragment>
