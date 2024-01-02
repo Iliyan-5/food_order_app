@@ -6,12 +6,16 @@ import CartContext from "../../store/cart-context";
 import Checkout from "./Checkout";
 import {db} from '../DB/firebase' 
 import { ref, push, set } from 'firebase/database';
+import { NavLink } from "react-router-dom";
+
 
 
 const Cart = (props) => {
   const [isCheckout, setIsCheckout] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [didSubmit, setDidSubmit] = useState(false);
+  const [isPermissionError, setIsPermissionError] = useState(false)
+  const [isSubmissionError, setIsSubmissionError] = useState (false)
 
   const cartCtx = useContext(CartContext);
 
@@ -52,6 +56,14 @@ const Cart = (props) => {
       setDidSubmit(true);
       cartCtx.clearCart();
     } catch (error) {
+      if (error.message.includes('permission denied')){
+        setIsPermissionError(true)
+        console.log("Permission error")
+      }else{
+        setIsSubmissionError (true)
+        console.log("Not Permission error")
+
+      }
       console.error("Грешка при изпращане на поръчката:", error);
       setIsSubmitting(false);
     }
@@ -117,10 +129,37 @@ const Cart = (props) => {
     </React.Fragment>
   );
 
+  const permissionErrorModalContent = (
+    <React.Fragment>
+      <p>Упс! Изглежда не сте регистриран. Моля регистрирайте се, за да направите поръчка!</p>
+      <div className={classes.actions}>
+        <button className={classes["button-"]} onClick={props.onClose}>
+          Затвори
+        </button>
+      </div>
+      <p className="text-sm text-white text-center">
+         <NavLink to="/signup">Създай акаунт</NavLink>
+        </p>
+    </React.Fragment>
+  );
+
+  const submissionErrorModalContent = (
+    <React.Fragment>
+      <p>Нещо се обърка!</p>
+      <div className={classes.actions}>
+        <button className={classes["button-"]} onClick={props.onClose}>
+          Затвори
+        </button>
+      </div>
+    </React.Fragment>
+  );
+
   return (
     <Modal onClose={props.onClose}>
-      {!isSubmitting && !didSubmit && cartModalContent}
+      {!isSubmitting && !didSubmit && !isPermissionError && !isSubmissionError && cartModalContent}
       {isSubmitting && isSubmittingModalContent}
+      {!isSubmitting & !didSubmit && isPermissionError && permissionErrorModalContent}
+      {!isSubmitting & !didSubmit && !isPermissionError && isSubmissionError && submissionErrorModalContent }
       {!isSubmitting && didSubmit && didSubmitModalContent}
     </Modal>
   );
