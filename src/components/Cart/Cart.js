@@ -59,9 +59,11 @@ const Cart = (props) => {
       if (error.message.includes('permission denied')){
         setIsPermissionError(true)
         console.log("Permission error")
+        console.log(error.message)
       }else{
         setIsSubmissionError (true)
         console.log("Not Permission error")
+        console.log(error.message)
 
       }
       console.error("Грешка при изпращане на поръчката:", error);
