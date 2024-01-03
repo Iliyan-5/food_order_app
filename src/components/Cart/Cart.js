@@ -60,10 +60,12 @@ const Cart = (props) => {
         setIsPermissionError(true)
         console.log("Permission error")
         console.log(error.message)
+        cartCtx.clearCart();
       }else{
         setIsSubmissionError (true)
         console.log("Not Permission error")
         console.log(error.message)
+  
 
       }
       console.error("Грешка при изпращане на поръчката:", error);
@@ -133,7 +135,7 @@ const Cart = (props) => {
 
   const permissionErrorModalContent = (
     <React.Fragment>
-      <p>Упс! Изглежда не сте регистриран. Моля регистрирайте се, за да направите поръчка!</p>
+      <p>Упс! Изглежда не сте регистриран. Моля, регистрирайте се, за да направите поръчка!</p>
       <div className={classes.actions}>
         <button className={classes["button-"]} onClick={props.onClose}>
           Затвори
@@ -160,8 +162,8 @@ const Cart = (props) => {
     <Modal onClose={props.onClose}>
       {!isSubmitting && !didSubmit && !isPermissionError && !isSubmissionError && cartModalContent}
       {isSubmitting && isSubmittingModalContent}
-      {!isSubmitting & !didSubmit && isPermissionError && permissionErrorModalContent}
-      {!isSubmitting & !didSubmit && !isPermissionError && isSubmissionError && submissionErrorModalContent }
+      {!isSubmitting && !didSubmit && isPermissionError && permissionErrorModalContent}
+      {!isSubmitting && !didSubmit && !isPermissionError && isSubmissionError && submissionErrorModalContent }
       {!isSubmitting && didSubmit && didSubmitModalContent}
     </Modal>
   );
