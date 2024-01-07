@@ -8,7 +8,7 @@ const MealItemForm = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const enteredAmount = amountInputRef.current.defaultValue;
+    const enteredAmount = amountInputRef.current.value;
     const enteredAmountNumber = +enteredAmount;
 
     if (
@@ -34,7 +34,8 @@ const MealItemForm = (props) => {
           min: "1",
           max: "5",
           defaultValue: "1",
-        }}
+        }
+      }
       />
 
       <button>+ Добави</button>
